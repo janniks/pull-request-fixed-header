@@ -674,6 +674,8 @@ function run() {
             const octokit = github.getOctokit(githubToken);
             const repo = github.context.repo;
             const pullRequest = yield octokit.pulls.get(Object.assign(Object.assign({}, repo), { pull_number: pullNumber }));
+            console.log(pullRequest);
+            core.debug(JSON.stringify(pullRequest));
             const params = Object.assign(Object.assign({}, github.context.repo), { pull_number: pullNumber, body: (0, utils_1.addHeader)(header, ((_b = pullRequest === null || pullRequest === void 0 ? void 0 : pullRequest.data) === null || _b === void 0 ? void 0 : _b.body) || '') });
             yield octokit.pulls.update(params);
         }
@@ -4540,7 +4542,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.addHeader = exports.MARKER = void 0;
 exports.MARKER = '<!-- Sticky Header Marker -->';
 function addHeader(header, currentBody) {
-    const regex = new RegExp(`(.*)(${exports.MARKER})\\s*`);
+    const regex = new RegExp(`([\\s\\S]*)(${exports.MARKER})\\s*`);
+    console.log({ header, currentBody });
     if (currentBody.match(regex)) {
         return currentBody.replace(regex, `${header}${exports.MARKER}\n\n`);
     }
