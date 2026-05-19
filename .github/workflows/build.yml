@@ -1,17 +1,26 @@
-name: 'build'
+name: "build"
 on:
   pull_request:
   push:
     branches:
       - master
-      - 'releases/*'
+      - "releases/*"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - run: |
-          npm install
-      - run: |
-          npm run all
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: "npm"
+      - run: npm ci
+      - run: npm run all
+      - name: Verify dist/ is up to date
+        run: |
+          if ! git diff --quiet --exit-code dist/; then
+            echo "::error::dist/ is out of sync with src/. Run 'npm run package' and commit the result."
+            git diff dist/
+            exit 1
+          fi

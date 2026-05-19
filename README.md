@@ -1,27 +1,45 @@
 <p>
-  <a href="https://github.com/actions/typescript-action/actions"><img alt="typescript-action status" src="https://github.com/kyranjamie/pull-request-fixed-header/workflows/build/badge.svg"></a>
-  <a href="http://www.wtfpl.net/about/"><img alt="License WTFPL" src="https://img.shields.io/badge/License-WTFPL-brightgreen.svg"></a>
+  <a href="https://github.com/janniks/pull-request-fixed-header/actions"><img alt="build status" src="https://github.com/janniks/pull-request-fixed-header/workflows/build/badge.svg"></a>
+  <a href="./LICENSE"><img alt="License MIT" src="https://img.shields.io/badge/License-MIT-brightgreen.svg"></a>
 </p>
 
-# Pull Request fixed Header
+# Pull Request Fixed Header
 
-> Keep a custom message on the top of your PR description
+> Keep a custom message stuck at the top of your PR description.
 
-This Action is heavily inspired by [fixed-pull-request-comment](https://github.com/marocchino/fixed-pull-request-comment), but instead of having a separated comment, I wanted to update the PR's description instead.
+Inspired by [fixed-pull-request-comment](https://github.com/marocchino/fixed-pull-request-comment), but updates the PR's description instead of adding a separate comment. The action looks for a sticky marker (`<!-- Sticky Header Marker -->`) in the body: on first run it prepends `header + marker`, on subsequent runs it replaces everything up to and including the marker.
 
-```yml
-name: PRSH example
+Runs on the Node 24 GitHub Actions runtime.
+
+## Usage
+
+```yaml
+name: PR header
 on:
   pull_request:
-    branches:
-      - master
+    branches: [master]
+
 jobs:
-  pull-request:
+  sticky-header:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: kyranjamie/pull-request-fixed-header@1.0.0
+      - uses: actions/checkout@v4
+      - uses: janniks/pull-request-fixed-header@v1.1.0
         with:
-          header: '> 🚀 This message is automated and the run number is: **${{ github.run_number }}**'
+          header: "> 🚀 This message is automated and the run number is: **${{ github.run_number }}**"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
+
+### SHA-pinned (recommended for org policies)
+
+```yaml
+- uses: janniks/pull-request-fixed-header@<full-commit-sha> # v1.1.0
+```
+
+## Inputs
+
+| Name                 | Required | Default  | Description                                  |
+| -------------------- | -------- | -------- | -------------------------------------------- |
+| `header`             | yes      | —        | Markdown to stick at the top of the PR body. |
+| `destination_branch` | no       | `master` | Base branch of the PR.                       |
+| `GITHUB_TOKEN`       | yes      | —        | Token used to read & update the PR body.     |

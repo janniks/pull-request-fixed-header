@@ -1,20 +1,20 @@
-name: 'Pull Request Fixed Header'
-description: 'Keep a custom message on the top of your PR description'
-author: 'kyranjamie'
+name: "Pull Request Fixed Header"
+description: "Keep a custom message on the top of your PR description"
+author: "kyranjamie"
 inputs:
   header:
-    description: 'Markdown message you want to stick at the top of your PR'
+    description: "Markdown message you want to stick at the top of your PR"
     required: true
   destination_branch:
-    description: 'Base branch of the PR. Default is master'
-    default: 'master'
+    description: "Base branch of the PR. Default is master"
+    default: "master"
     required: false
   GITHUB_TOKEN:
-    description: 'set secrets.GITHUB_TOKEN here'
+    description: "set secrets.GITHUB_TOKEN here"
     required: true
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
+  using: "node24"
+  main: "dist/index.js"
 branding:
-  icon: 'git-pull-request'
-  color: 'yellow'
+  icon: "git-pull-request"
+  color: "yellow"

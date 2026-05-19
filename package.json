@@ -1,47 +1,38 @@
 {
   "name": "pull-request-fixed-header",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "private": true,
-  "description": "TypeScript template action",
-  "main": "lib/main.js",
-  "scripts": {
-    "build": "tsc",
-    "format": "prettier --write **/*.ts",
-    "format-check": "prettier --check **/*.ts",
-    "lint": "eslint src/**/*.ts",
-    "package": "ncc build --source-map",
-    "test": "jest",
-    "all": "npm run build && npm run format && npm run lint && npm run package && npm test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kyranjamie/pull-request-fixed-header.git"
-  },
+  "description": "GitHub Action that keeps a sticky header at the top of a pull request description",
   "keywords": [
     "actions",
-    "node",
-    "setup"
+    "pull-request",
+    "sticky-header"
   ],
-  "author": "",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/janniks/pull-request-fixed-header.git"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "tsc --noEmit",
+    "format": "oxfmt",
+    "format-check": "oxfmt --check",
+    "lint": "oxlint",
+    "package": "ncc build src/main.ts -o dist --source-map --license licenses.txt",
+    "test": "vitest run",
+    "all": "npm run build && npm run format-check && npm run lint && npm run package && npm test"
+  },
   "dependencies": {
-    "@actions/core": "^1.2.6",
-    "@actions/github": "^4.0.0"
+    "@actions/core": "^3.0.1",
+    "@actions/github": "^9.1.1"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.14",
-    "@types/node": "^14.11.1",
-    "@typescript-eslint/parser": "^4.1.1",
-    "@zeit/ncc": "^0.22.3",
-    "eslint": "^7.9.0",
-    "eslint-plugin-github": "^4.1.1",
-    "eslint-plugin-jest": "^24.0.2",
-    "eslint-plugin-prettier": "^4.2.1",
-    "jest": "^24.9.0",
-    "jest-circus": "^26.4.2",
-    "js-yaml": "^3.14.0",
-    "prettier": "2.1.2",
-    "ts-jest": "^24.3.0",
-    "typescript": "^4.0.2"
+    "@types/node": "^24.0.0",
+    "@vercel/ncc": "^0.38.4",
+    "oxfmt": "^0.50.0",
+    "oxlint": "^1.65.0",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.6"
   }
 }

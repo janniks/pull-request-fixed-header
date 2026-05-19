@@ -1,13 +1,12 @@
-export const MARKER = '<!-- Sticky Header Marker -->'
+export const MARKER = "<!-- Sticky Header Marker -->";
 
 export function addHeader(header: string, currentBody: string): string {
-  const regex = new RegExp(`([\\s\\S]*)(${MARKER})\\s*`)
+  const markerIndex = currentBody.indexOf(MARKER);
 
-  console.log({ header, currentBody })
-
-  if (currentBody.match(regex)) {
-    return currentBody.replace(regex, `${header}${MARKER}\n\n`)
+  if (markerIndex >= 0) {
+    const tail = currentBody.slice(markerIndex + MARKER.length).replace(/^\s+/, "");
+    return `${header}${MARKER}\n\n${tail}`;
   }
 
-  return `${header}${MARKER}\n\n${currentBody}`
+  return `${header}${MARKER}\n\n${currentBody}`;
 }
