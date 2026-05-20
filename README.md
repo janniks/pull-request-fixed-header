@@ -63,9 +63,9 @@ jobs:
 
 ## Inputs
 
-| Name                 | Required | Default  | Description                                                                                           |
-| -------------------- | -------- | -------- | ----------------------------------------------------------------------------------------------------- |
-| `header`             | yes      | —        | Markdown to stick at the top of the PR body.                                                          |
-| `pr-number`        | no       | —        | PR number to update. Defaults to `github.event.pull_request.number` on `pull_request` events.         |
-| `destination_branch` | no       | `master` | Base branch of the PR.                                                                                |
-| `GITHUB_TOKEN`       | yes      | —        | Token used to read & update the PR body.                                                              |
+| Name                 | Required | Default  | Description                                                                                   |
+| -------------------- | -------- | -------- | --------------------------------------------------------------------------------------------- |
+| `header`             | yes      | —        | Markdown to stick at the top of the PR body.                                                  |
+| `pr-number`          | no       | —        | PR number to update. Defaults to `github.event.pull_request.number` on `pull_request` events. |
+| `destination_branch` | no       | `master` | Base branch of the PR.                                                                        |
+| `GITHUB_TOKEN`       | yes      | —        | Token used to read & update the PR body.                                                      |
