@@ -3,10 +3,13 @@ import * as github from "@actions/github";
 import { addHeader } from "./utils.js";
 
 async function run(): Promise<void> {
-  const pullNumber = github.context.payload.pull_request?.number ?? 0;
+  const prNumberInput = core.getInput("pr-number");
+  const pullNumber = prNumberInput
+    ? Number(prNumberInput)
+    : (github.context.payload.pull_request?.number ?? 0);
 
   if (!pullNumber || pullNumber < 1) {
-    core.info("Not a pull request, skipping it...");
+    core.info("Not a pull request and no pr-number input provided, skipping it...");
     return;
   }
 

@@ -36271,9 +36271,12 @@ function addHeader(header, currentBody) {
 
 
 async function run() {
-    const pullNumber = github_context.payload.pull_request?.number ?? 0;
+    const prNumberInput = getInput("pr-number");
+    const pullNumber = prNumberInput
+        ? Number(prNumberInput)
+        : (github_context.payload.pull_request?.number ?? 0);
     if (!pullNumber || pullNumber < 1) {
-        info("Not a pull request, skipping it...");
+        info("Not a pull request and no pr-number input provided, skipping it...");
         return;
     }
     try {

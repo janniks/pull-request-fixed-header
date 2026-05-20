@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: janniks/pull-request-fixed-header@v1.1.0
+      - uses: janniks/pull-request-fixed-header@v1.2.0
         with:
           header: "> 🚀 This message is automated and the run number is: **${{ github.run_number }}**"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -33,13 +33,39 @@ jobs:
 ### SHA-pinned (recommended for org policies)
 
 ```yaml
-- uses: janniks/pull-request-fixed-header@<full-commit-sha> # v1.1.0
+- uses: janniks/pull-request-fixed-header@<full-commit-sha> # v1.2.0
+```
+
+### Triggering outside `pull_request` events
+
+When running from `workflow_dispatch`, `repository_dispatch`, `push`, etc., pass `pr-number` explicitly so the action knows which PR to update:
+
+```yaml
+on:
+  workflow_dispatch:
+    inputs:
+      pr-number:
+        type: string
+        required: true
+
+jobs:
+  sticky:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: janniks/pull-request-fixed-header@v1.2.0
+        with:
+          header: "> Snapshot published"
+          pr-number: ${{ inputs.pr-number }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 ## Inputs
 
-| Name                 | Required | Default  | Description                                  |
-| -------------------- | -------- | -------- | -------------------------------------------- |
-| `header`             | yes      | —        | Markdown to stick at the top of the PR body. |
-| `destination_branch` | no       | `master` | Base branch of the PR.                       |
-| `GITHUB_TOKEN`       | yes      | —        | Token used to read & update the PR body.     |
+| Name                 | Required | Default  | Description                                                                                           |
+| -------------------- | -------- | -------- | ----------------------------------------------------------------------------------------------------- |
+| `header`             | yes      | —        | Markdown to stick at the top of the PR body.                                                          |
+| `pr-number`        | no       | —        | PR number to update. Defaults to `github.event.pull_request.number` on `pull_request` events.         |
+| `destination_branch` | no       | `master` | Base branch of the PR.                                                                                |
+| `GITHUB_TOKEN`       | yes      | —        | Token used to read & update the PR body.                                                              |

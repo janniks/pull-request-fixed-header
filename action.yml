@@ -5,6 +5,9 @@ inputs:
   header:
     description: "Markdown message you want to stick at the top of your PR"
     required: true
+  pr-number:
+    description: "PR number to update. Defaults to github.event.pull_request.number when running on a pull_request event."
+    required: false
   destination_branch:
     description: "Base branch of the PR. Default is master"
     default: "master"
